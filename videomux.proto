@@ -1,0 +1,16 @@
+syntax = "proto3";
+package videomux;
+
+option go_package = "./videomux";
+
+message VideoRequest {
+    bytes chunk = 1;
+}
+
+message VideoResponse {
+    string message = 1;
+}
+
+service VideoMux { 
+    rpc SendVideo (stream VideoRequest) returns (VideoResponse);
+}
