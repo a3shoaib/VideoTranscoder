@@ -1,7 +1,7 @@
 syntax = "proto3";
 package videomux;
 
-option go_package = "./";
+option go_package = "./server/generated_videomux";
 
 message Authentication {
     string username = 1;
