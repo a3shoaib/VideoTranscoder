@@ -1,5 +1,5 @@
 # Generating proto
-protoc -I=. --go_out=. --go-grpc_out=. ./largefile.proto
+`protoc -I=. --go_out=. --go-grpc_out=. ./transcoder.proto``
 
 # Running the server
 Ensure the docker Daemon is running
@@ -18,6 +18,6 @@ Follow this guide: https://developers.google.com/protocol-buffers/docs/gotutoria
 `$ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28`
 `$ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2`
 - Ensure that you are in the base directory, then run the following command:
-`protoc -I=. --go_out=. --go-grpc_out=. ./videomux.proto`
+`protoc -I=. --go_out=. --go-grpc_out=. ./transcoder.proto`
 
 
