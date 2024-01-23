@@ -1,13 +1,16 @@
-# Generating proto
-`protoc -I=. --go_out=. --go-grpc_out=. ./transcoder.proto``
+# Overview
+This video transcoding service uses gRPCs/client-side streaming to stream a video to the server and uses FFmpeg to transcode the video/audio codec and uploads it onto to Amazon S3 based on the user's credentials. The application is containerized using Docker. 
 
-# Running the server
+## Generating proto
+`protoc -I=. --go_out=. --go-grpc_out=. ./transcoder.proto`
+
+## Running the server
 Ensure the docker Daemon is running
-cd server
-docker build --tag=transcoder:latest . && docker run -it -p 9000:9000 transcoder:latest
+`cd server`
+`docker build --tag=transcoder:latest . && docker run -it -p 9000:9000 transcoder:latest`
 
-# Running the client
-go install projects/arshoaib/largefile-streaming/client && ~/go/bin/client
+## Running the client
+`go install projects/arshoaib/largefile-streaming/client && ~/go/bin/client`
 
 ## Instructions
 
