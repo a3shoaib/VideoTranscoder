@@ -1,4 +1,13 @@
-# VideoMux
+# Generating proto
+protoc -I=. --go_out=. --go-grpc_out=. ./largefile.proto
+
+# Running the server
+Ensure the docker Daemon is running
+cd server
+docker build --tag=transcoder:latest . && docker run -it -p 9000:9000 transcoder:latest
+
+# Running the client
+go install projects/arshoaib/largefile-streaming/client && ~/go/bin/client
 
 ## Instructions
 
@@ -11,16 +20,4 @@ Follow this guide: https://developers.google.com/protocol-buffers/docs/gotutoria
 - Ensure that you are in the base directory, then run the following command:
 `protoc -I=. --go_out=. --go-grpc_out=. ./videomux.proto`
 
-
-
-## Planned commands
-videomux create_account
-videomux login
-videomux logout
-videomux send ....
-videomux receive ....
-videomux list --options (sort)
-videomux convert formatA to formatB
-videomux rename videoA to videoB
-videomux search videoA
 

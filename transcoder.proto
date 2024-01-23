@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option go_package = "exports/compiled_proto";
+import "google/protobuf/empty.proto";
+
+package transcoder;
+
+// The video transcoding service definition.
+service VideoTranscoderService {
+  // Sends a chunk of video to the server.
+  // The first call to SendVideoChunk should _ALWAYS_ send the header information by populating the `header` field.
+  // Each subsequent call must send the video chunk bytes by populating the `chunk_data` field.
+  rpc SendVideoChunk (stream VideoChunk) returns (google.protobuf.Empty) {}
+}
+
+enum VideoCodec {
+  H264 = 0; // Most common codec, used by iPhones, Android, etc.
+  HEVC = 1; // Used typically for 4K and Ultra-HD streaming.
+  VP9 = 2; // Most commonly used on the web for streaming services (developed by Google). e.g. YouTube.
+  AV1 = 3; // Used by media content providers such as Netflix, Hulu, etc.
+  COPY_VCODEC = 4; // Copy the existing video codec i.e. no change.
+}
+
+enum AudioCodec {
+  AAC = 0; // Default audio codec for iPhone, Android, Nintendo systems, etc.
+  FLAC = 1; // Used typically in CDs. Famous for being lossless (high audio quality).
+  AC3 = 2; // Used in blu-ray systems, DVDs, some gaming consoles.
+  COPY_ACODEC = 3; // Copy the existing audio codec i.e. no change.
+}
+
+// Credentials to authorize requests to AWS S3.
+message AWSCredentials {
+  string region = 1;
+  string bucket_name = 2;
+  string access_key_id = 3;
+  string secret_access_key = 4;
+}
+
+// Header of the transcoder, sent before any chunks are sent. Contains information
+// regarding video metadata, transcoding information, and AWS Credentials.
+message TranscoderHeaderInformation {
+  string file_name = 1;
+  AWSCredentials aws_credentials = 2;
+  optional VideoCodec output_video_codec = 3;
+  optional AudioCodec output_audio_codec = 4;
+}
+
+// A chunk of video containing the bytes of the chunk.
+message VideoChunk {
+  oneof chunk {
+    TranscoderHeaderInformation header = 1;
+    bytes chunk_data = 2;
+  }
+}
